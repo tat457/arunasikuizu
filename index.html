@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ひらめき！あるなしクイズ50選</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Zen Maru Gothic & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Zen Maru Gothic"', '"Inter"', 'sans-serif'],
+          },
+          colors: {
+            chalkboard: '#1e4637',
+            chalkboardDark: '#143327',
+            woodFrame: '#8c5327',
+            woodFrameDark: '#5e3516',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Zen Maru Gothic', 'Inter', sans-serif;
+      background-color: #f4f1ea;
+      background-image: radial-gradient(#dcd6c8 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    /* 黒板の質感と木枠風シャドウ */
+    .chalkboard-box {
+      background: linear-gradient(145deg, #224f3e 0%, #183a2d 100%);
+      border: 8px solid #965a2c;
+      box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.45), 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+    }
+    @media (max-width: 640px) {
+      .chalkboard-box {
+        border-width: 6px;
+      }
+    }
+    /* チョーク風テキストシャドウ */
+    .chalk-text {
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    /* ポップなボタンアニメーション */
+    .btn-push {
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease;
+    }
+    .btn-push:active:not(:disabled) {
+      transform: translateY(3px);
+    }
+    /* フェードインアニメーション */
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.95) translateY(8px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .animate-pop-in {
+      animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col selection:bg-amber-200">
+
+  <!-- ヘッダー -->
+  <header class="bg-white/90 backdrop-blur-md border-b border-amber-200/80 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+      <button onclick="goHome()" class="flex items-center gap-2.5 text-left group focus:outline-none">
+        <div class="w-10 h-10 rounded-xl bg-emerald-700 text-white flex items-center justify-center font-black text-lg shadow-sm group-hover:bg-emerald-600 transition">
+          〇×
+        </div>
+        <div>
+          <h1 class="font-black text-base sm:text-lg text-slate-800 leading-tight tracking-tight">
+            ひらめき！あるなしクイズ50選
+          </h1>
+          <p class="text-[11px] sm:text-xs text-slate-500 font-medium">隠れた共通点の法則を見抜こう</p>
+        </div>
+      </button>
+
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <!-- 効果音トグル -->
+        <button id="soundToggleBtn" onclick="toggleSound()" title="効果音のオン/オフ"
+          class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition text-sm font-bold flex items-center gap-1">
+          <span id="soundIcon">🔊</span>
+          <span class="hidden sm:inline text-xs" id="soundLabel">音ON</span>
+        </button>
+        <!-- 問題一覧ボタン -->
+        <button onclick="openModal('listModal')"
+          class="px-3 py-2.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs sm:text-sm transition">
+          全50問一覧
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="flex-1 max-w-3xl w-full mx-auto px-4 py-6 sm:py-8">
+
+    <!-- 1. スタート画面（ホーム） -->
+    <section id="homeScreen" class="space-y-6 animate-pop-in">
+      <!-- 黒板ヒーローバナー -->
+      <div class="chalkboard-box rounded-3xl p-6 sm:p-8 text-white relative overflow-hidden">
+        <div class="flex flex-col items-center text-center space-y-4">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-white/15 text-amber-200 text-xs sm:text-sm font-bold tracking-wider">
+            全50問収録・ブラウザで遊べる脳トレWebアプリ
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-black tracking-tight chalk-text leading-snug">
+            <span class="text-rose-400">〇 ある</span> と <span class="text-sky-300">× なし</span><br>
+            違いの法則がわかるかな？
+          </h2>
+          <p class="text-sm sm:text-base text-emerald-100/90 max-w-lg leading-relaxed">
+            言葉のひっかけ、逆さ読み、漢字のつくり、英語変換など、多彩なパターンの「あるなしクイズ」を50問厳選！頭をやわらかくして全問制覇を目指そう！
+          </p>
+
+          <!-- 例題ミニ黒板 -->
+          <div class="w-full max-w-md bg-black/25 rounded-2xl p-4 border border-white/15 mt-2">
+            <div class="text-xs text-amber-300 font-bold mb-2">【例題】「ひと」はどっちに入る？</div>
+            <div class="grid grid-cols-2 gap-3 text-sm sm:text-base font-bold">
+              <div class="bg-rose-500/20 border border-rose-400/40 rounded-xl p-2.5">
+                <div class="text-rose-300 text-xs mb-1">〇 ある</div>
+                <div>まち・なつ・きく</div>
+              </div>
+              <div class="bg-sky-500/20 border border-sky-400/40 rounded-xl p-2.5">
+                <div class="text-sky-300 text-xs mb-1">× なし</div>
+                <div>むら・ふゆ・みる</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- プレイ進捗ステータス -->
+      <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200/80 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-black text-xl">
+            🏆
+          </div>
+          <div>
+            <div class="text-xs font-bold text-slate-500">あなたのクリア記録</div>
+            <div class="text-lg sm:text-xl font-black text-slate-800">
+              <span id="solvedCountDisplay" class="text-emerald-600">0</span> <span class="text-sm font-bold text-slate-500">/ 50 問正解済み</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="reviewWrongBtn" onclick="startQuizMode('wrong')" class="hidden px-3.5 py-2.5 rounded-xl bg-rose-100 hover:bg-rose-200 text-rose-800 font-bold text-xs sm:text-sm transition">
+            苦手復習 (<span id="wrongCountDisplay">0</span>問)
+          </button>
+          <button onclick="openModal('resetModal')" class="px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-xs transition">
+            記録リセット
+          </button>
+        </div>
+      </div>
+
+      <!-- コース選択カード -->
+      <div class="space-y-3">
+        <h3 class="font-black text-slate-700 text-base sm:text-lg px-1">挑戦するコースを選ぼう</h3>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <!-- 全50問チャレンジ -->
+          <button onclick="startQuizMode('all')" class="btn-push text-left bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl p-5 shadow-md shadow-emerald-900/10 flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded-lg bg-white/20 text-xs font-bold">王道コース</span>
+              <span class="text-2xl">🔥</span>
+            </div>
+            <div>
+              <div class="text-lg sm:text-xl font-black">全50問通しチャレンジ</div>
+              <p class="text-xs text-emerald-100 mt-1">第1問から第50問まで順番に完全制覇を目指す！</p>
+            </div>
+          </button>
+
+          <!-- ランダム10問 -->
+          <button onclick="startQuizMode('random10')" class="btn-push text-left bg-amber-500 hover:bg-amber-600 text-white rounded-2xl p-5 shadow-md shadow-amber-900/10 flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded-lg bg-white/20 text-xs font-bold">サクッと3分</span>
+              <span class="text-2xl">⚡</span>
+            </div>
+            <div>
+              <div class="text-lg sm:text-xl font-black">ランダム10問テスト</div>
+              <p class="text-xs text-amber-50 mt-1">全50問の中からランダムに10問出題！</p>
+            </div>
+          </button>
+        </div>
+
+        <!-- ステージ別（10問ずつ） -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-sm space-y-3">
+          <div class="text-sm font-black text-slate-700">ステージ別チャレンジ（各10問）</div>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+            <button onclick="startQuizMode('stage', 0)" class="btn-push p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-center transition">
+              <div class="text-xs font-bold text-emerald-700">第1〜10問</div>
+              <div class="text-sm font-black text-slate-800 mt-0.5">入門編</div>
+            </button>
+            <button onclick="startQuizMode('stage', 10)" class="btn-push p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-center transition">
+              <div class="text-xs font-bold text-emerald-700">第11〜20問</div>
+              <div class="text-sm font-black text-slate-800 mt-0.5">初級編</div>
+            </button>
+            <button onclick="startQuizMode('stage', 20)" class="btn-push p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-center transition">
+              <div class="text-xs font-bold text-emerald-700">第21〜30問</div>
+              <div class="text-sm font-black text-slate-800 mt-0.5">中級編</div>
+            </button>
+            <button onclick="startQuizMode('stage', 30)" class="btn-push p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-center transition">
+              <div class="text-xs font-bold text-emerald-700">第31〜40問</div>
+              <div class="text-sm font-black text-slate-800 mt-0.5">上級編</div>
+            </button>
+            <button onclick="startQuizMode('stage', 40)" class="btn-push col-span-2 sm:col-span-1 p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-center transition">
+              <div class="text-xs font-bold text-emerald-700">第41〜50問</div>
+              <div class="text-sm font-black text-slate-800 mt-0.5">達人編</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. クイズプレイ画面 -->
+    <section id="quizScreen" class="hidden space-y-5 animate-pop-in">
+      <!-- プログレス＆スコアバー -->
+      <div class="bg-white rounded-2xl p-3.5 sm:p-4 shadow-sm border border-slate-200/80 space-y-2.5">
+        <div class="flex items-center justify-between text-xs sm:text-sm font-bold">
+          <div class="flex items-center gap-2">
+            <span id="modeBadge" class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-black">全50問</span>
+            <span class="text-slate-600">
+              問題 <span id="currentStepNum" class="text-slate-900 font-black text-base">1</span> / <span id="totalStepNum">50</span>
+              <span id="originalQNum" class="text-xs text-slate-400 ml-1">(Q.1)</span>
+            </span>
+          </div>
+          <div class="text-amber-600 font-black">
+            正解数: <span id="sessionScore" class="text-base">0</span>
+          </div>
+        </div>
+        <!-- プログレスバー -->
+        <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+          <div id="progressBar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 2%"></div>
+        </div>
+      </div>
+
+      <!-- 黒板問題カード -->
+      <div class="chalkboard-box rounded-3xl p-5 sm:p-7 text-white">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+          <!-- ある枠 -->
+          <div class="bg-black/25 border-2 border-rose-400/70 rounded-2xl p-4 sm:p-5">
+            <div class="flex items-center gap-2 mb-3 pb-2 border-b border-white/15">
+              <span class="w-7 h-7 rounded-full bg-rose-500 text-white font-black flex items-center justify-center text-sm shadow">〇</span>
+              <span class="font-black text-lg sm:text-xl text-rose-300 tracking-wider">ある</span>
+            </div>
+            <ul id="aruList" class="space-y-2 text-lg sm:text-2xl font-black tracking-wide chalk-text pl-1">
+              <!-- JSで挿入 -->
+            </ul>
+          </div>
+
+          <!-- なし枠 -->
+          <div class="bg-black/25 border-2 border-sky-400/70 rounded-2xl p-4 sm:p-5">
+            <div class="flex items-center gap-2 mb-3 pb-2 border-b border-white/15">
+              <span class="w-7 h-7 rounded-full bg-sky-500 text-white font-black flex items-center justify-center text-sm shadow">×</span>
+              <span class="font-black text-lg sm:text-xl text-sky-300 tracking-wider">なし</span>
+            </div>
+            <ul id="nashiList" class="space-y-2 text-lg sm:text-2xl font-black tracking-wide chalk-text pl-1 text-slate-200">
+              <!-- JSで挿入 -->
+            </ul>
+          </div>
+        </div>
+
+        <!-- 問題文 -->
+        <div class="mt-5 pt-4 border-t border-white/15 text-center">
+          <p id="questionPrompt" class="text-base sm:text-lg font-bold text-amber-200 chalk-text">
+            このとき、「ある」の仲間に入る言葉はどれでしょう？
+          </p>
+        </div>
+      </div>
+
+      <!-- ヒントエリア -->
+      <div class="flex flex-col items-center">
+        <button id="hintBtn" onclick="showHint()" class="px-4 py-2 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs sm:text-sm transition flex items-center gap-1.5 shadow-sm">
+          <span>💡</span>
+          <span>ヒントを見る</span>
+        </button>
+        <div id="hintBox" class="hidden mt-2.5 w-full bg-amber-50 border border-amber-300 text-amber-900 rounded-2xl px-4 py-3 text-xs sm:text-sm font-bold text-center animate-pop-in">
+          <!-- JSでヒント挿入 -->
+        </div>
+      </div>
+
+      <!-- 4択ボタン -->
+      <div id="choicesGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- JSで4択ボタン生成 -->
+      </div>
+
+      <!-- 解説＆次へエリア（回答後に表示） -->
+      <div id="feedbackArea" class="hidden bg-white rounded-3xl p-5 sm:p-6 border-2 shadow-lg space-y-4 animate-pop-in">
+        <div class="flex items-center gap-3">
+          <div id="feedbackBadge" class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl font-black text-white shrink-0">
+            〇
+          </div>
+          <div>
+            <div id="feedbackTitle" class="text-xl sm:text-2xl font-black">正解！</div>
+            <div class="text-xs sm:text-sm font-bold text-slate-500">
+              正答：<span id="feedbackAnswer" class="text-slate-900 font-black text-base"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80">
+          <div class="text-xs font-black text-emerald-700 mb-1">【法則の解説】</div>
+          <p id="feedbackExplanation" class="text-sm sm:text-base font-bold text-slate-700 leading-relaxed">
+            <!-- JSで解説挿入 -->
+          </p>
+        </div>
+
+        <div class="flex justify-end pt-1">
+          <button id="nextBtn" onclick="nextQuestion()" class="btn-push w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-base shadow-md transition flex items-center justify-center gap-2">
+            <span id="nextBtnText">次の問題へ</span>
+            <span>➔</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 結果発表画面 -->
+    <section id="resultScreen" class="hidden space-y-6 animate-pop-in">
+      <div class="chalkboard-box rounded-3xl p-6 sm:p-8 text-white text-center space-y-4">
+        <div class="inline-block px-4 py-1 rounded-full bg-white/15 text-amber-200 text-xs sm:text-sm font-bold">
+          チャレンジ結果発表！
+        </div>
+        <div id="resultRankBadge" class="w-24 h-24 mx-auto rounded-3xl bg-amber-400 text-slate-900 flex items-center justify-center text-5xl font-black shadow-lg">
+          S
+        </div>
+        <h2 id="resultTitle" class="text-2xl sm:text-3xl font-black chalk-text">
+          ひらめきマスター！
+        </h2>
+        <div class="text-3xl sm:text-4xl font-black text-amber-300">
+          <span id="finalScore">0</span> <span class="text-lg text-white">/ <span id="finalTotal">10</span> 問正解</span>
+        </div>
+        <p id="resultComment" class="text-sm sm:text-base text-emerald-100 max-w-md mx-auto">
+          素晴らしい観察力と発想力です！
+        </p>
+
+        <div class="pt-2 flex flex-wrap justify-center gap-3">
+          <button onclick="copyResultText()" class="btn-push px-5 py-3 rounded-2xl bg-white text-slate-800 hover:bg-amber-50 font-black text-sm shadow flex items-center gap-2">
+            <span>📋</span>
+            <span>結果をコピーしてシェア</span>
+          </button>
+          <button onclick="goHome()" class="btn-push px-5 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-white font-black text-sm shadow">
+            トップに戻る
+          </button>
+        </div>
+      </div>
+
+      <!-- 今回の出題振り返りリスト -->
+      <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-3">
+        <h3 class="font-black text-slate-800 text-base sm:text-lg">今回の出題と法則まとめ</h3>
+        <div id="resultSummaryList" class="divide-y divide-slate-100">
+          <!-- JSで生成 -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- フッター -->
+  <footer class="py-6 text-center text-xs text-slate-500 font-medium">
+    <p>ひらめき！あるなしクイズ50選</p>
+  </footer>
+
+  <!-- モーダル1: 全50問一覧 -->
+  <div id="listModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-pop-in">
+      <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div>
+          <h3 class="font-black text-lg text-slate-800">全50問 問題一覧</h3>
+          <p class="text-xs text-slate-500">クリックするとその問題からプレイできます</p>
+        </div>
+        <button onclick="closeModal('listModal')" class="w-9 h-9 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-black flex items-center justify-center">
+          ✕
+        </button>
+      </div>
+      <div id="allQuestionsContainer" class="p-4 overflow-y-auto space-y-2.5 flex-1">
+        <!-- JSで50問生成 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- モーダル2: 記録リセット確認 -->
+  <div id="githubModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-pop-in">
+      <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-800 text-white">
+        <h3 class="font-black text-base sm:text-lg flex items-center gap-2">
+          <span>🚀</span> GitHubへのアップロード・公開手順
+        </h3>
+        <button onclick="closeModal('githubModal')" class="w-8 h-8 rounded-xl bg-white/15 hover:bg-white/25 text-white font-black flex items-center justify-center">
+          ✕
+        </button>
+      </div>
+      <div class="p-5 overflow-y-auto space-y-4 text-sm text-slate-700 leading-relaxed">
+        <p class="font-bold text-slate-800">
+          このWebアプリは外部ファイル不要の <code class="px-1.5 py-0.5 bg-slate-100 rounded text-emerald-700 font-mono">index.html</code> 1ファイルだけで動作するように設計されています。
+        </p>
+        <ol class="list-decimal list-inside space-y-2 bg-slate-50 p-4 rounded-2xl border border-slate-200 font-medium">
+          <li>GitHubで新しいリポジトリ（例：<code class="text-xs bg-white px-1.5 py-0.5 rounded border">arunashi-quiz</code>）を作成します。</li>
+          <li>このコードを <code class="text-xs bg-white px-1.5 py-0.5 rounded border">index.html</code> という名前でリポジトリにアップロード（Push）します。</li>
+          <li>リポジトリの <strong>Settings &gt; Pages</strong> を開きます。</li>
+          <li><strong>Branch</strong> で <code class="text-xs bg-white px-1.5 py-0.5 rounded border">main</code> を選択して <strong>Save</strong> を押すと、数分でWebサイトとして公開されます！</li>
+        </ol>
+        <div class="pt-2 flex flex-wrap gap-2">
+          <button onclick="downloadJsonData()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition">
+            📥 クイズデータ(JSON)をダウンロード
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- モーダル3: 記録リセット確認 -->
+  <div id="resetModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 text-center animate-pop-in">
+      <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 mx-auto flex items-center justify-center text-2xl font-black">
+        !
+      </div>
+      <h3 class="font-black text-lg text-slate-800">クリア記録をリセットしますか？</h3>
+      <p class="text-xs sm:text-sm text-slate-500">保存されている正解済み・苦手リストの履歴がすべて消去されます。</p>
+      <div class="grid grid-cols-2 gap-2.5 pt-2">
+        <button onclick="closeModal('resetModal')" class="py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm">
+          キャンセル
+        </button>
+        <button onclick="confirmResetProgress()" class="py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm">
+          リセットする
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- トースト通知 -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-5 py-3 rounded-full text-xs sm:text-sm font-bold shadow-lg opacity-0 pointer-events-none transition-opacity duration-200">
+    コピーしました！
+  </div>
+
+  <script>
+    /**
+     * あるなしクイズ全50問データベース
+     * 各問題に【ある】【なし】、質問文、正答、ダミー選択肢3つ、ヒント、詳細な法則解説を完備
+     */
+    const QUIZ_DATA = [
+      {
+        id: 1,
+        aru: ["とり", "むぎ", "うし", "やま"],
+        nashi: ["いね", "うみ", "そら", "つき"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "ぶた",
+        distractors: ["いぬ", "ねこ", "さる"],
+        hint: "言葉の「前」に、ある1文字をつけてみましょう。",
+        explanation: "前に「こ（小・子）」をつけると別の言葉になります（ことり・こむぎ・こうし・こやま・こぶた）。"
+      },
+      {
+        id: 2,
+        aru: ["まち", "なつ", "きく"],
+        nashi: ["むら", "ふゆ", "みる"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "ひと",
+        distractors: ["いえ", "はる", "よむ"],
+        hint: "言葉の「後ろ」に、ある2文字をつけてみましょう。",
+        explanation: "後ろに「がら（柄）」をつけると意味の通じる言葉になります（まちがら・なつがら・きくがら・ひとがら）。"
+      },
+      {
+        id: 3,
+        aru: ["くるま", "いるか", "きつね", "つみき"],
+        nashi: ["うさぎ", "すずめ", "かえる", "とんぼ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "くすり",
+        distractors: ["めだか", "とまと", "りんご"],
+        hint: "文字を「逆さ」から読んでみると…？",
+        explanation: "逆から読むと別の言葉になります（まくら・かるい・ねつき・きみつ・りすく）。"
+      },
+      {
+        id: 4,
+        aru: ["まつ", "すぎ", "さくら", "かえで"],
+        nashi: ["たけ", "くさ", "はな", "いね"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "うめ",
+        distractors: ["ばら", "ゆり", "むぎ"],
+        hint: "植物の「種類」に注目してみましょう。",
+        explanation: "「ある」はすべて「木（樹木）」の名前です（松・杉・桜・楓・梅）。"
+      },
+      {
+        id: 5,
+        aru: ["たからもの", "はとば", "わしづかみ", "かもめ"],
+        nashi: ["おくりもの", "みなと", "てづかみ", "しろくま"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "つるはし",
+        distractors: ["くわがた", "かまきり", "こがねむし"],
+        hint: "言葉の「最初の2文字」に注目！",
+        explanation: "最初の2文字が「鳥」の名前になっています（たか・はと・わし・かも・つる）。"
+      },
+      {
+        id: 6,
+        aru: ["かぎ", "ざる", "ぶた", "つぎ"],
+        nashi: ["えび", "へび", "かば", "べに"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "あじ",
+        distractors: ["さば", "たい", "ふぐ"],
+        hint: "言葉についている「濁点（゛）」を消してみましょう。",
+        explanation: "濁点（゛）をとると別の言葉になります（かき・さる・ふた・つき・あし）。"
+      },
+      {
+        id: 7,
+        aru: ["たぬき", "たから", "たばこ", "たまご"],
+        nashi: ["たけのこ", "たいこ", "たんぽぽ", "たこやき"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "たもと",
+        distractors: ["たなばた", "たいよう", "たぬきじる"],
+        hint: "まさに「たぬき（た抜き）」してみましょう！",
+        explanation: "最初の「た」をとると別の言葉になります（ぬき・から・ばこ・まご・もと）。"
+      },
+      {
+        id: 8,
+        aru: ["どらやき", "れもん", "みかん", "ふぁいと"],
+        nashi: ["まんじゅう", "らいむ", "りんご", "がんばる"],
+        prompt: "この法則で「ふぁいと」の次に入る言葉はどれでしょう？",
+        answer: "そらまめ",
+        distractors: ["えだまめ", "くりきんとん", "ばなな"],
+        hint: "最初の音（ド・レ・ミ・ファ…）に注目！",
+        explanation: "最初の音が音階（ド・レ・ミ・ファ・ソ）の順になっています。次は「ソ」で始まる「そらまめ」です。"
+      },
+      {
+        id: 9,
+        aru: ["花火", "会社", "平和", "国王"],
+        nashi: ["風鈴", "学校", "戦争", "国民"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "当日",
+        distractors: ["昨日", "今日", "明日"],
+        hint: "2文字の漢字を「前後ひっくり返して」みましょう。",
+        explanation: "漢字の前後を逆にしても別の熟語になります（火花・社会・和平・王国・日当）。"
+      },
+      {
+        id: 10,
+        aru: ["うみどり", "しろっぷ", "あかねこ", "あおい"],
+        nashi: ["うみがめ", "こっぷ", "ねこぜ", "さといも"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "ももたろう",
+        distractors: ["きんたろう", "うらしまたろう", "いっすんぼうし"],
+        hint: "言葉の中に「カラフルなもの」が隠れています。",
+        explanation: "言葉の中に「色」の名前が隠れています（みどり・しろ・あか・あお・もも）。"
+      },
+      {
+        id: 11,
+        aru: ["石", "右", "古", "兄"],
+        nashi: ["土", "左", "新", "弟"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "名",
+        distractors: ["字", "文", "本"],
+        hint: "漢字の「パーツ（部品）」に注目！",
+        explanation: "「ある」の漢字にはすべて「口（くち）」というパーツが含まれています。"
+      },
+      {
+        id: 12,
+        aru: ["白", "目", "石", "田"],
+        nashi: ["黒", "耳", "岩", "畑"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "正",
+        distractors: ["誤", "真", "偽"],
+        hint: "漢字を書くときの「画数」を数えてみましょう。",
+        explanation: "「ある」はすべて「5画」の漢字です（白・目・石・田・正＝すべて5画）。"
+      },
+      {
+        id: 13,
+        aru: ["ほん", "かき", "まき", "もじ"],
+        nashi: ["のーと", "りんご", "すし", "ことば"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "ふで",
+        distractors: ["ぺん", "かみ", "すみ"],
+        hint: "言葉の「前」に、ある1文字をつけてみましょう。",
+        explanation: "前に「え（絵）」をつけると別の言葉になります（えほん・えかき・えまき・えもじ・えふで）。"
+      },
+      {
+        id: 14,
+        aru: ["いぬ", "ねこ", "ぶた", "きつね"],
+        nashi: ["うま", "ひつじ", "とら", "くま"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "うし",
+        distractors: ["ぞう", "さる", "しか"],
+        hint: "動物たちを「英語」に直して綴り（文字数）を見てみましょう。",
+        explanation: "英語にしたとき「3文字」になる動物です（dog, cat, pig, fox, cow）。"
+      },
+      {
+        id: 15,
+        aru: ["とまと", "こねこ", "すいす", "かいか"],
+        nashi: ["りんご", "こいぬ", "どいつ", "まんかい"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "ここあ",
+        distractors: ["こーひー", "みるく", "おちゃ"],
+        hint: "上から読んでも、下から読んでも…？",
+        explanation: "逆から読んでも同じ言葉になる「回文」です（とまと・こねこ・すいす・かいか・ここあ）。"
+      },
+      {
+        id: 16,
+        aru: ["めだか", "はなび", "くちびる", "みみず"],
+        nashi: ["きんぎょ", "まつり", "おしゃべり", "むし"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "はみがき",
+        distractors: ["うがい", "せんがん", "てあらい"],
+        hint: "言葉の「最初」に、顔にあるパーツが隠れています。",
+        explanation: "言葉の最初が「顔のパーツ（目・鼻・口・耳・歯）」になっています。"
+      },
+      {
+        id: 17,
+        aru: ["そうじ", "せんたく", "けいさん", "はつでん"],
+        nashi: ["りょうり", "おふろ", "べんきょう", "うんどう"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "すいはん",
+        distractors: ["しょくじ", "すいみん", "さんぽ"],
+        hint: "後ろに「き（機・器）」をつけてみましょう。",
+        explanation: "後ろに「き」をつけると家電・機械の名前になります（掃除機・洗濯機・計算機・発電機・炊飯器）。"
+      },
+      {
+        id: 18,
+        aru: ["海", "池", "湖", "波"],
+        nashi: ["山", "森", "林", "島"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "港",
+        distractors: ["岬", "丘", "谷"],
+        hint: "漢字の「部首（へん）」に注目！",
+        explanation: "「ある」はすべて部首が「さんずい（氵）」の漢字です。"
+      },
+      {
+        id: 19,
+        aru: ["かき", "たま", "なら", "もちゃ"],
+        nashi: ["りんご", "すいか", "とうきょう", "ぱんだ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "でん",
+        distractors: ["ばす", "くるま", "ふね"],
+        hint: "言葉の「前」に「お」をつけてみましょう。",
+        explanation: "前に「お」をつけると別の言葉になります（おかき・おたま・おなら・おもちゃ・おでん）。"
+      },
+      {
+        id: 20,
+        aru: ["りんご", "ほん", "ねこ", "いぬ"],
+        nashi: ["みかん", "のーと", "とり", "うさぎ"],
+        prompt: "この法則で「いぬ」の次に入る言葉はどれでしょう？",
+        answer: "たまご",
+        distractors: ["さかな", "くるま", "はな"],
+        hint: "英語にしたときの「頭文字（アルファベット）」を並べてみましょう。",
+        explanation: "英語の頭文字が A, B, C, D, E の順になっています（Apple, Book, Cat, Dog, Egg＝たまご）。"
+      },
+      {
+        id: 21,
+        aru: ["たいこう", "ふえる", "すずしい", "ことば"],
+        nashi: ["さんせい", "へる", "あつい", "もじ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "びわこ",
+        distractors: ["ふじさん", "とねがわ", "いずも"],
+        hint: "「最後の1文字」を消すと、あるジャンルの名前が出てきます。",
+        explanation: "最後の1文字をとると「楽器」の名前になります（たいこ・ふえ・すず・こと・びわ）。"
+      },
+      {
+        id: 22,
+        aru: ["うんてん", "べんご", "りょうり", "けんちく"],
+        nashi: ["くるま", "ほうりつ", "しょくじ", "たてもの"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "びよう",
+        distractors: ["けんこう", "うんどう", "がくしゅう"],
+        hint: "後ろに「し（士・師）」をつけてみましょう。",
+        explanation: "後ろに「し」をつけると職業の名前になります（運転士・弁護士・料理師・建築士・美容師）。"
+      },
+      {
+        id: 23,
+        aru: ["すず", "つば", "かも", "ひら"],
+        nashi: ["からす", "わし", "たか", "たい"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "わか",
+        distractors: ["はいく", "たんか", "せんりゅう"],
+        hint: "後ろに「め」をつけてみましょう。",
+        explanation: "後ろに「め」をつけると生き物や海藻などの名前になります（すずめ・つばめ・かもめ・ひらめ・わかめ）。"
+      },
+      {
+        id: 24,
+        aru: ["山", "川", "土", "口"],
+        nashi: ["海", "池", "林", "岩"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "大",
+        distractors: ["中", "小", "太"],
+        hint: "漢字の「画数」を数えてみましょう。",
+        explanation: "「ある」はすべて「3画」の漢字です（山・川・土・口・大＝すべて3画）。"
+      },
+      {
+        id: 25,
+        aru: ["なすび", "うりば", "まめちしき", "かぶしき"],
+        nashi: ["りんご", "みせ", "ちしき", "かいしゃ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "ねぎらい",
+        distractors: ["かんしゃ", "おれい", "あいさつ"],
+        hint: "言葉の「最初の2文字」に注目！",
+        explanation: "最初の2文字が「野菜」の名前になっています（なす・うり・まめ・かぶ・ねぎ）。"
+      },
+      {
+        id: 26,
+        aru: ["いんどあ", "たいよう", "ちりとり", "にほんばし"],
+        nashi: ["あうとどあ", "おつきさま", "ほうき", "きょうばし"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "いらくさ",
+        distractors: ["たんぽぽ", "あさがお", "ひまわり"],
+        hint: "言葉の「最初」に世界地図で見つかるものが隠れています。",
+        explanation: "言葉の最初が「国の名前」になっています（インド・タイ・チリ・日本・イラク）。"
+      },
+      {
+        id: 27,
+        aru: ["みず", "そら", "もも", "はだ"],
+        nashi: ["おゆ", "くも", "りんご", "かみ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "きん",
+        distractors: ["てつ", "どう", "すず"],
+        hint: "後ろに「いろ（色）」をつけてみましょう。",
+        explanation: "後ろに「いろ」をつけると色の名前になります（水色・空色・桃色・肌色・金色）。"
+      },
+      {
+        id: 28,
+        aru: ["左右", "上下", "男女", "大小"],
+        nashi: ["山川", "森林", "道路", "公園"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "売買",
+        distractors: ["読書", "散歩", "旅行"],
+        hint: "二字熟語の2つの漢字の「意味の関係」に注目！",
+        explanation: "「ある」は反対の意味の漢字が組み合わさった熟語（対義語熟語）です。"
+      },
+      {
+        id: 29,
+        aru: ["岩石", "道路", "森林", "海洋"],
+        nashi: ["山川", "田畑", "山野", "公園"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "温暖",
+        distractors: ["寒暖", "高低", "長短"],
+        hint: "さっきとは逆！2つの漢字の意味が…？",
+        explanation: "「ある」は同じような意味の漢字が組み合わさった熟語（類義語熟語）です。"
+      },
+      {
+        id: 30,
+        aru: ["とら", "うま", "へび", "さる"],
+        nashi: ["らいおん", "ぞう", "かば", "きりん"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "うさぎ",
+        distractors: ["ぱんだ", "こあら", "ぺんぎん"],
+        hint: "お正月に登場する12種類の動物といえば？",
+        explanation: "「ある」はすべて「十二支（干支）」に含まれる動物です（寅・午・巳・申・卯）。"
+      },
+      {
+        id: 31,
+        aru: ["あり", "はち", "ちょう", "せみ"],
+        nashi: ["さかな", "とり", "いぬ", "ねこ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "とんぼ",
+        distractors: ["かえる", "へび", "かめ"],
+        hint: "生き物の分類（足が6本！）に注目！",
+        explanation: "「ある」はすべて「昆虫（虫）」の名前です。"
+      },
+      {
+        id: 32,
+        aru: ["ちばらき", "みえる", "さがす", "ならう"],
+        nashi: ["とちぎ", "きこえる", "みつける", "おしえる"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "しがらみ",
+        distractors: ["やくそく", "きまり", "るーる"],
+        hint: "言葉の「最初の2文字」に日本地図の要素が隠れています。",
+        explanation: "最初の2文字が「都道府県名」になっています（千葉・三重・佐賀・奈良・滋賀）。"
+      },
+      {
+        id: 33,
+        aru: ["にゅうがく", "そつぎょう", "けっこん", "せいじん"],
+        nashi: ["うんどう", "えんそく", "りょこう", "さんぽ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "しゅうにん",
+        distractors: ["きゅうけい", "どくしょ", "かいもの"],
+        hint: "後ろに「しき（式）」をつけてみましょう。",
+        explanation: "後ろに「しき」をつけるとセレモニーの名前になります（入学式・卒業式・結婚式・成人式・就任式）。"
+      },
+      {
+        id: 34,
+        aru: ["かめら", "たいこ", "さいふ", "とりい"],
+        nashi: ["とまと", "らっぱ", "ぼうし", "やしろ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "ねこぜ",
+        distractors: ["まじめ", "げんき", "ゆうき"],
+        hint: "言葉の「最初の2文字」に生き物が隠れています。",
+        explanation: "最初の2文字が「生き物」の名前になっています（カメ・タイ・サイ・トリ・ネコ）。"
+      },
+      {
+        id: 35,
+        aru: ["寺", "青", "生", "者"],
+        nashi: ["院", "赤", "死", "人"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "音",
+        distractors: ["声", "歌", "曲"],
+        hint: "漢字の左側に「日（にちへん）」をつけてみましょう。",
+        explanation: "左に「日」をつけると別の漢字になります（時・晴・星・暑・暗）。"
+      },
+      {
+        id: 36,
+        aru: ["あめ", "かぜ", "ゆき", "みず"],
+        nashi: ["くも", "きり", "にじ", "つゆ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "しお",
+        distractors: ["さとう", "す", "みそ"],
+        hint: "言葉の「前」に「おお（大）」をつけてみましょう。",
+        explanation: "前に「おお（大）」をつけると自然現象を表す言葉になります（大雨・大風・大雪・大水・大潮）。"
+      },
+      {
+        id: 37,
+        aru: ["あめ", "うみ", "とり", "ふうせん"],
+        nashi: ["ゆき", "やま", "さかな", "ぼーる"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "ぎょうざ",
+        distractors: ["らーめん", "ちゃーはん", "しゅうまい"],
+        hint: "言葉の「前」に「みず（水）」をつけてみましょう。",
+        explanation: "前に「みず」をつけると別の言葉になります（水飴・湖・水鳥・水風船・水餃子）。"
+      },
+      {
+        id: 38,
+        aru: ["おちゃめ", "みずうみ", "みるくれーぷ", "こーらす"],
+        nashi: ["ゆかい", "いけ", "くれーぷ", "がっしょう"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "そうだん",
+        distractors: ["かいぎ", "はなしあい", "れんらく"],
+        hint: "言葉の「最初」に喉を潤すものが隠れています。",
+        explanation: "言葉の最初が「飲み物」の名前になっています（お茶・水・ミルク・コーラ・ソーダ）。"
+      },
+      {
+        id: 39,
+        aru: ["あにめ", "あねご", "まごころ", "おいわい"],
+        nashi: ["まんが", "おやぶん", "しんせつ", "しゅくふく"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "めいあん",
+        distractors: ["くふう", "ちえ", "ひらめき"],
+        hint: "言葉の「最初の2文字」に親戚・家族が隠れています。",
+        explanation: "最初の2文字が「親族（家族・親戚）」を表す言葉になっています（兄・姉・孫・甥・姪）。"
+      },
+      {
+        id: 40,
+        aru: ["品", "回", "呂", "串"],
+        nashi: ["日", "目", "田", "白"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "器",
+        distractors: ["皿", "鉢", "鍋"],
+        hint: "漢字の中にある四角いパーツ「口」の数を数えてみましょう。",
+        explanation: "「ある」は漢字の中に「口」が2つ以上含まれています（品＝3つ、回・呂・串＝2つ、器＝4つ）。"
+      },
+      {
+        id: 41,
+        aru: ["いちご", "にんじん", "さんま", "しいたけ"],
+        nashi: ["りんご", "だいこん", "いわし", "えのき"],
+        prompt: "この法則で「しいたけ」の次に入る言葉はどれでしょう？",
+        answer: "ごぼう",
+        distractors: ["れんこん", "きゃべつ", "たまねぎ"],
+        hint: "言葉の最初に「1、2、3、4…」が隠れています！",
+        explanation: "言葉の中に数字が順番に隠れています（いち・に・さん・し・ご＝ごぼう）。"
+      },
+      {
+        id: 42,
+        aru: ["い", "しん", "かいぎ", "よく"],
+        nashi: ["だいどころ", "げんかん", "ろうか", "べらんだ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "おうせつ",
+        distractors: ["しょくどう", "きょうしつ", "としょかん"],
+        hint: "後ろに「しつ（室）」をつけてみましょう。",
+        explanation: "後ろに「しつ」をつけると部屋の名前になります（医室・寝室・会議室・浴室・応接室）。"
+      },
+      {
+        id: 43,
+        aru: ["かた", "おと", "さか", "きず"],
+        nashi: ["くび", "うで", "むね", "ひざ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "はて",
+        distractors: ["はじ", "すみ", "おく"],
+        hint: "後ろに「な」を1文字つけてみましょう。",
+        explanation: "後ろに「な」をつけると別の言葉になります（かたな・おとな・さかな・きずな・はてな）。"
+      },
+      {
+        id: 44,
+        aru: ["くるま", "たぬき", "さくら", "つくえ"],
+        nashi: ["うさぎ", "すずめ", "りんご", "みかん"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "かるた",
+        distractors: ["とらんぷ", "しょうぎ", "いご"],
+        hint: "真ん中の文字を抜いて、1文字目と3文字目をつなげてみましょう。",
+        explanation: "1文字目と3文字目をつなぐと別の言葉になります（くま・たき・さら・つえ・かた）。"
+      },
+      {
+        id: 45,
+        aru: ["あい", "うえ", "いえ", "あお"],
+        nashi: ["やま", "かわ", "もり", "うみ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "おい",
+        distractors: ["そら", "くも", "ほし"],
+        hint: "五十音表の「一番上の段（あ行）」だけでできています！",
+        explanation: "すべて母音（あ・い・う・え・お）の文字だけでできている言葉です。"
+      },
+      {
+        id: 46,
+        aru: ["はるさめ", "なつめぐ", "あきない", "ふゆかい"],
+        nashi: ["うめぼし", "すぱいす", "しょうばい", "たのしい"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "はるまき",
+        distractors: ["ぎょうざ", "しゅうまい", "にくまん"],
+        hint: "言葉の「最初の2文字」に日本の四季が隠れています。",
+        explanation: "最初の2文字が「季節（春・夏・秋・冬）」の名前になっています。"
+      },
+      {
+        id: 47,
+        aru: ["め", "しゃぼん", "びー", "おや"],
+        nashi: ["はな", "くち", "かみ", "き"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "けん",
+        distractors: ["かたな", "やり", "ゆみ"],
+        hint: "後ろに「だま（玉）」をつけてみましょう。",
+        explanation: "後ろに「だま」をつけると丸いものや遊びの名前になります（目玉・シャボン玉・ビー玉・親玉・けん玉）。"
+      },
+      {
+        id: 48,
+        aru: ["花", "草", "茶", "薬"],
+        nashi: ["木", "森", "竹", "米"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "葉",
+        distractors: ["枝", "幹", "根"],
+        hint: "漢字の一番上にある「部首」に注目！",
+        explanation: "「ある」はすべて部首が「くさかんむり（艹）」の漢字です。"
+      },
+      {
+        id: 49,
+        aru: ["いか", "さか", "かわ", "なつ"],
+        nashi: ["たこ", "ふね", "うみ", "ふゆ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "すな",
+        distractors: ["どろ", "いし", "つち"],
+        hint: "文字を「逆さ」から読んでみましょう。",
+        explanation: "逆から読むと別の言葉になります（かい・かさ・わか・つな・なす）。"
+      },
+      {
+        id: 50,
+        aru: ["ちゃん", "しんごう", "とんぼ", "えんぴつ"],
+        nashi: ["くん", "おうだんほどう", "ばった", "けしごむ"],
+        prompt: "このとき、「ある」の仲間に入る言葉はどれでしょう？",
+        answer: "ワイン",
+        distractors: ["じゅーす", "びーる", "こーひー"],
+        hint: "言葉の「前」に「あか（赤）」をつけてみましょう。",
+        explanation: "前に「あか」をつけると別の言葉になります（赤ちゃん・赤信号・赤トンボ・赤鉛筆・赤ワイン）。"
+      }
+    ];
+
+    // アプリの状態管理
+    const STORAGE_KEY = 'arunashi_quiz_50_progress_v1';
+    let progress = {
+      solvedIds: [],
+      wrongIds: []
+    };
+
+    let currentSession = {
+      modeName: '',
+      questions: [],
+      currentIndex: 0,
+      score: 0,
+      results: [], // { id, isCorrect, userChoice }
+      answered: false
+    };
+
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    // 初期化処理
+    window.onload = function() {
+      loadProgress();
+      updateHomeStats();
+      renderAllQuestionsList();
+
+      // キーボードショートカット (1〜4キーで選択、Enter/Spaceで次へ)
+      document.addEventListener('keydown', (e) => {
+        if (document.getElementById('quizScreen').classList.contains('hidden')) return;
+        if (!currentSession.answered) {
+          if (['1', '2', '3', '4'].includes(e.key)) {
+            const idx = parseInt(e.key, 10) - 1;
+            const btns = document.querySelectorAll('#choicesGrid button');
+            if (btns[idx]) btns[idx].click();
+          }
+        } else {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            nextQuestion();
+          }
+        }
+      });
+    };
+
+    // ローカルストレージから進捗読み込み
+    function loadProgress() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed.solvedIds)) progress.solvedIds = parsed.solvedIds;
+          if (Array.isArray(parsed.wrongIds)) progress.wrongIds = parsed.wrongIds;
+        }
+      } catch (err) {
+        console.warn('進捗データの読み込みをスキップしました:', err);
+      }
+    }
+
+    // ローカルストレージへ進捗保存
+    function saveProgress() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+      } catch (err) {
+        console.warn('進捗データの保存をスキップしました:', err);
+      }
+    }
+
+    // Web Audio API によるシンセ効果音（外部ファイル不要）
+    function playTone(type) {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'correct') {
+          // ピンポーン音
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(659.25, now); // E5
+          osc.frequency.setValueAtTime(523.25, now + 0.12); // C5 -> E5ピンポン
+          osc.frequency.setValueAtTime(783.99, now + 0.12); // G5
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+          osc.start(now);
+          osc.stop(now + 0.45);
+        } else if (type === 'wrong') {
+          // ブブー音
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(150, now);
+          osc.frequency.setValueAtTime(130, now + 0.18);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+          osc.start(now);
+          osc.stop(now + 0.4);
+        } else if (type === 'click') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(440, now);
+          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        }
+      } catch (e) {
+        // 音声再生非対応環境は無視
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundIcon').textContent = soundEnabled ? '🔊' : '🔇';
+      document.getElementById('soundLabel').textContent = soundEnabled ? '音ON' : '音OFF';
+      if (soundEnabled) playTone('click');
+    }
+
+    // 配列シャッフル（Fisher-Yates）
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    // ホーム画面の統計更新
+    function updateHomeStats() {
+      document.getElementById('solvedCountDisplay').textContent = progress.solvedIds.length;
+      const wrongBtn = document.getElementById('reviewWrongBtn');
+      const wrongCount = document.getElementById('wrongCountDisplay');
+      if (progress.wrongIds.length > 0) {
+        wrongBtn.classList.remove('hidden');
+        wrongCount.textContent = progress.wrongIds.length;
+      } else {
+        wrongBtn.classList.add('hidden');
+      }
+    }
+
+    // クイズモード開始
+    function startQuizMode(mode, param = 0) {
+      playTone('click');
+      let selected = [];
+      let label = '';
+
+      if (mode === 'all') {
+        selected = [...QUIZ_DATA];
+        label = '全50問チャレンジ';
+      } else if (mode === 'random10') {
+        selected = shuffleArray(QUIZ_DATA).slice(0, 10);
+        label = 'ランダム10問';
+      } else if (mode === 'stage') {
+        selected = QUIZ_DATA.slice(param, param + 10);
+        label = `第${param + 1}〜${param + 10}問`;
+      } else if (mode === 'wrong') {
+        selected = QUIZ_DATA.filter(q => progress.wrongIds.includes(q.id));
+        if (selected.length === 0) {
+          showToast('復習する問題がありません！');
+          return;
+        }
+        label = '苦手復習モード';
+      } else if (mode === 'single') {
+        // 一覧から特定の問題を開始し、そこから最後まで連続プレイ可能にする
+        const startIdx = QUIZ_DATA.findIndex(q => q.id === param);
+        selected = QUIZ_DATA.slice(startIdx >= 0 ? startIdx : 0);
+        label = `Q.${param}からスタート`;
+      }
+
+      currentSession = {
+        modeName: label,
+        questions: selected,
+        currentIndex: 0,
+        score: 0,
+        results: [],
+        answered: false
+      };
+
+      document.getElementById('homeScreen').classList.add('hidden');
+      document.getElementById('resultScreen').classList.add('hidden');
+      document.getElementById('quizScreen').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      renderCurrentQuestion();
+    }
+
+    // 現在の問題を描画
+    function renderCurrentQuestion() {
+      const q = currentSession.questions[currentSession.currentIndex];
+      const total = currentSession.questions.length;
+      const step = currentSession.currentIndex + 1;
+      currentSession.answered = false;
+
+      // ヘッダー情報更新
+      document.getElementById('modeBadge').textContent = currentSession.modeName;
+      document.getElementById('currentStepNum').textContent = step;
+      document.getElementById('totalStepNum').textContent = total;
+      document.getElementById('originalQNum').textContent = `(第${q.id}問)`;
+      document.getElementById('sessionScore').textContent = currentSession.score;
+      document.getElementById('progressBar').style.width = `${Math.round((step / total) * 100)}%`;
+
+      // 黒板リスト更新
+      const aruEl = document.getElementById('aruList');
+      const nashiEl = document.getElementById('nashiList');
+      aruEl.innerHTML = q.aru.map(word => `<li class="flex items-center gap-2"><span class="text-rose-400 text-sm">●</span>${escapeHtml(word)}</li>`).join('');
+      nashiEl.innerHTML = q.nashi.map(word => `<li class="flex items-center gap-2"><span class="text-sky-400 text-sm">●</span>${escapeHtml(word)}</li>`).join('');
+      document.getElementById('questionPrompt').textContent = q.prompt;
+
+      // ヒントリセット
+      const hintBox = document.getElementById('hintBox');
+      const hintBtn = document.getElementById('hintBtn');
+      hintBox.classList.add('hidden');
+      hintBox.textContent = `💡 ヒント：${q.hint}`;
+      hintBtn.classList.remove('hidden');
+
+      // フィードバック非表示
+      document.getElementById('feedbackArea').classList.add('hidden');
+
+      // 4択生成（正解＋ダミー3つをシャッフル）
+      const choices = shuffleArray([q.answer, ...q.distractors]);
+      const choicesGrid = document.getElementById('choicesGrid');
+      const labels = ['A', 'B', 'C', 'D'];
+
+      choicesGrid.innerHTML = choices.map((choice, idx) => `
+        <button onclick="submitAnswer('${escapeJsString(choice)}', this)"
+          class="btn-push choice-btn w-full text-left bg-white hover:bg-amber-50 border-2 border-slate-200 hover:border-amber-400 rounded-2xl p-4 shadow-xs flex items-center gap-3.5 transition group">
+          <span class="w-8 h-8 rounded-xl bg-slate-100 group-hover:bg-amber-200 text-slate-700 font-black text-sm flex items-center justify-center shrink-0 transition">
+            ${labels[idx]}
+          </span>
+          <span class="text-lg sm:text-xl font-black text-slate-800">${escapeHtml(choice)}</span>
+        </button>
+      `).join('');
+    }
+
+    // ヒント表示
+    function showHint() {
+      playTone('click');
+      document.getElementById('hintBtn').classList.add('hidden');
+      document.getElementById('hintBox').classList.remove('hidden');
+    }
+
+    // 回答判定
+    function submitAnswer(selectedChoice, btnEl) {
+      if (currentSession.answered) return;
+      currentSession.answered = true;
+
+      const q = currentSession.questions[currentSession.currentIndex];
+      const isCorrect = selectedChoice === q.answer;
+
+      // スコア・進捗更新
+      if (isCorrect) {
+        currentSession.score++;
+        playTone('correct');
+        if (!progress.solvedIds.includes(q.id)) {
+          progress.solvedIds.push(q.id);
+        }
+        progress.wrongIds = progress.wrongIds.filter(id => id !== q.id);
+      } else {
+        playTone('wrong');
+        if (!progress.wrongIds.includes(q.id)) {
+          progress.wrongIds.push(q.id);
+        }
+      }
+      saveProgress();
+
+      currentSession.results.push({
+        question: q,
+        isCorrect: isCorrect,
+        userChoice: selectedChoice
+      });
+
+      document.getElementById('sessionScore').textContent = currentSession.score;
+
+      // ボタンのスタイル変更
+      const allBtns = document.querySelectorAll('.choice-btn');
+      allBtns.forEach(btn => {
+        btn.disabled = true;
+        const text = btn.querySelector('span:last-child').textContent;
+        if (text === q.answer) {
+          btn.classList.remove('bg-white', 'border-slate-200', 'hover:bg-amber-50');
+          btn.classList.add('bg-emerald-50', 'border-emerald-500', 'ring-2', 'ring-emerald-200');
+          btn.querySelector('span:first-child').classList.add('bg-emerald-500', 'text-white');
+        } else if (btn === btnEl && !isCorrect) {
+          btn.classList.remove('bg-white', 'border-slate-200', 'hover:bg-amber-50');
+          btn.classList.add('bg-rose-50', 'border-rose-500');
+          btn.querySelector('span:first-child').classList.add('bg-rose-500', 'text-white');
+        } else {
+          btn.classList.add('opacity-55');
+        }
+      });
+
+      // フィードバック表示
+      const feedbackArea = document.getElementById('feedbackArea');
+      const feedbackBadge = document.getElementById('feedbackBadge');
+      const feedbackTitle = document.getElementById('feedbackTitle');
+
+      if (isCorrect) {
+        feedbackArea.className = 'bg-white rounded-3xl p-5 sm:p-6 border-2 border-emerald-400 shadow-lg space-y-4 animate-pop-in';
+        feedbackBadge.className = 'w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center text-2xl font-black text-white shrink-0';
+        feedbackBadge.textContent = '〇';
+        feedbackTitle.className = 'text-xl sm:text-2xl font-black text-emerald-700';
+        feedbackTitle.textContent = '大正解！すばらしい！';
+      } else {
+        feedbackArea.className = 'bg-white rounded-3xl p-5 sm:p-6 border-2 border-rose-400 shadow-lg space-y-4 animate-pop-in';
+        feedbackBadge.className = 'w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center text-2xl font-black text-white shrink-0';
+        feedbackBadge.textContent = '×';
+        feedbackTitle.className = 'text-xl sm:text-2xl font-black text-rose-700';
+        feedbackTitle.textContent = 'おしい！不正解…';
+      }
+
+      document.getElementById('feedbackAnswer').textContent = q.answer;
+      document.getElementById('feedbackExplanation').textContent = q.explanation;
+
+      const isLast = currentSession.currentIndex >= currentSession.questions.length - 1;
+      document.getElementById('nextBtnText').textContent = isLast ? '結果発表を見る' : '次の問題へ';
+
+      feedbackArea.classList.remove('hidden');
+      setTimeout(() => {
+        feedbackArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 60);
+    }
+
+    // 次の問題または結果画面へ
+    function nextQuestion() {
+      playTone('click');
+      if (currentSession.currentIndex < currentSession.questions.length - 1) {
+        currentSession.currentIndex++;
+        renderCurrentQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showResults();
+      }
+    }
+
+    // 結果画面表示
+    function showResults() {
+      document.getElementById('quizScreen').classList.add('hidden');
+      document.getElementById('resultScreen').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const score = currentSession.score;
+      const total = currentSession.questions.length;
+      const ratio = total > 0 ? score / total : 0;
+
+      document.getElementById('finalScore').textContent = score;
+      document.getElementById('finalTotal').textContent = total;
+
+      let rank = 'C';
+      let title = 'もう一歩！脳トレチャレンジャー';
+      let comment = '法則のパターンがわかると一気に解けるようになりますよ！';
+      let badgeColor = 'bg-slate-200 text-slate-800';
+
+      if (ratio === 1) {
+        rank = 'S';
+        title = '完璧！伝説のひらめきマスター';
+        comment = '全問正解おめでとうございます！圧倒的な発想力と観察力です！';
+        badgeColor = 'bg-amber-400 text-slate-900';
+      } else if (ratio >= 0.8) {
+        rank = 'A';
+        title = 'すごい！あるなしクイズ上級者';
+        comment = 'ほとんどの法則を見抜きました！あと少しでパーフェクトです！';
+        badgeColor = 'bg-emerald-400 text-slate-900';
+      } else if (ratio >= 0.5) {
+        rank = 'B';
+        title = 'ナイス！ひらめきセンスあり';
+        comment = '半分以上の法則を突破！間違えた問題の解説もチェックしてみよう！';
+        badgeColor = 'bg-sky-300 text-slate-900';
+      }
+
+      const badgeEl = document.getElementById('resultRankBadge');
+      badgeEl.textContent = rank;
+      badgeEl.className = `w-24 h-24 mx-auto rounded-3xl ${badgeColor} flex items-center justify-center text-5xl font-black shadow-lg`;
+      document.getElementById('resultTitle').textContent = title;
+      document.getElementById('resultComment').textContent = comment;
+
+      // 振り返りリスト描画
+      const listEl = document.getElementById('resultSummaryList');
+      listEl.innerHTML = currentSession.results.map(item => `
+        <div class="py-3.5 flex items-start gap-3">
+          <span class="w-7 h-7 rounded-lg ${item.isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'} font-black text-sm flex items-center justify-center shrink-0 mt-0.5">
+            ${item.isCorrect ? '〇' : '×'}
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-xs font-black text-slate-400">第${item.question.id}問</span>
+              <span class="text-sm font-black text-slate-800">正答：${escapeHtml(item.question.answer)}</span>
+              ${!item.isCorrect ? `<span class="text-xs font-bold text-rose-600">(あなたの回答：${escapeHtml(item.userChoice)})</span>` : ''}
+            </div>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">${escapeHtml(item.question.explanation)}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 結果をクリップボードへコピー（iFrame制限対応の execCommand 使用）
+    function copyResultText() {
+      const text = `【ひらめき！あるなしクイズ50選】\nコース：${currentSession.modeName}\n結果：${currentSession.questions.length}問中 ${currentSession.score}問正解！\n#あるなしクイズ #脳トレ`;
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('結果をクリップボードにコピーしました！');
+      } catch (e) {
+        showToast('コピーに失敗しました');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // ホーム画面へ戻る
+    function goHome() {
+      playTone('click');
+      updateHomeStats();
+      renderAllQuestionsList();
+      document.getElementById('quizScreen').classList.add('hidden');
+      document.getElementById('resultScreen').classList.add('hidden');
+      document.getElementById('homeScreen').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 全50問一覧モーダル描画
+    function renderAllQuestionsList() {
+      const container = document.getElementById('allQuestionsContainer');
+      container.innerHTML = QUIZ_DATA.map(q => {
+        const isSolved = progress.solvedIds.includes(q.id);
+        const isWrong = progress.wrongIds.includes(q.id);
+        let statusBadge = '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-500 text-[11px] font-bold">未挑戦</span>';
+        if (isSolved) {
+          statusBadge = '<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[11px] font-bold">〇 正解済</span>';
+        } else if (isWrong) {
+          statusBadge = '<span class="px-2 py-0.5 rounded bg-rose-100 text-rose-700 text-[11px] font-bold">× 要復習</span>';
+        }
+
+        return `
+          <button onclick="closeModal('listModal'); startQuizMode('single', ${q.id})"
+            class="w-full text-left p-3.5 rounded-2xl border border-slate-200 hover:border-emerald-400 hover:bg-emerald-50/50 transition flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="font-black text-sm text-emerald-800">第${q.id}問</span>
+                ${statusBadge}
+              </div>
+              <div class="text-xs text-slate-600 truncate">
+                <span class="font-bold text-rose-600">ある：</span>${escapeHtml(q.aru.join('・'))}
+              </div>
+            </div>
+            <span class="text-slate-400 font-bold text-sm shrink-0">挑戦 ➔</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    // モーダル制御
+    function openModal(id) {
+      playTone('click');
+      if (id === 'listModal') renderAllQuestionsList();
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    // 記録リセット実行
+    function confirmResetProgress() {
+      progress = { solvedIds: [], wrongIds: [] };
+      saveProgress();
+      updateHomeStats();
+      renderAllQuestionsList();
+      closeModal('resetModal');
+      showToast('クリア記録をリセットしました');
+    }
+
+    // トースト通知表示
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.remove('opacity-0');
+      setTimeout(() => {
+        toast.classList.add('opacity-0');
+      }, 2400);
+    }
+
+    // HTMLエスケープ
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function escapeJsString(str) {
+      return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    }
+  </script>
+</body>
+</html>
