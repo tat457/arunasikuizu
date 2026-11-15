@@ -274,13 +274,22 @@
       </div>
 
       <!-- ヒントエリア -->
-      <div class="flex flex-col items-center">
+      <div class="flex flex-col items-center space-y-2.5">
         <button id="hintBtn" onclick="showHint()" class="px-4 py-2 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs sm:text-sm transition flex items-center gap-1.5 shadow-sm">
           <span>💡</span>
           <span>ヒントを見る</span>
         </button>
-        <div id="hintBox" class="hidden mt-2.5 w-full bg-amber-50 border border-amber-300 text-amber-900 rounded-2xl px-4 py-3 text-xs sm:text-sm font-bold text-center animate-pop-in">
+        <div id="hintBox" class="hidden w-full bg-amber-50 border border-amber-300 text-amber-900 rounded-2xl px-4 py-3 text-xs sm:text-sm font-bold text-center animate-pop-in">
           <!-- JSでヒント挿入 -->
+        </div>
+        <!-- 1回目不正解時に自動表示される具体的な大ヒント -->
+        <div id="firstWrongHintBox" class="hidden w-full bg-rose-50 border-2 border-rose-300 text-rose-950 rounded-2xl px-4 py-3.5 text-center shadow-sm animate-pop-in space-y-1.5">
+          <div class="text-xs sm:text-sm font-black text-rose-600">
+            × 1回目不正解！あと1回チャレンジできるよ！
+          </div>
+          <div id="firstWrongHintText" class="text-sm sm:text-base font-black text-amber-950 bg-amber-200/80 rounded-xl px-3.5 py-2 inline-block">
+            <!-- JSで文字・核心ヒント挿入 -->
+          </div>
         </div>
       </div>
 
@@ -384,36 +393,6 @@
   </div>
 
   <!-- モーダル2: 記録リセット確認 -->
-  <div id="githubModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-pop-in">
-      <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-800 text-white">
-        <h3 class="font-black text-base sm:text-lg flex items-center gap-2">
-          <span>🚀</span> GitHubへのアップロード・公開手順
-        </h3>
-        <button onclick="closeModal('githubModal')" class="w-8 h-8 rounded-xl bg-white/15 hover:bg-white/25 text-white font-black flex items-center justify-center">
-          ✕
-        </button>
-      </div>
-      <div class="p-5 overflow-y-auto space-y-4 text-sm text-slate-700 leading-relaxed">
-        <p class="font-bold text-slate-800">
-          このWebアプリは外部ファイル不要の <code class="px-1.5 py-0.5 bg-slate-100 rounded text-emerald-700 font-mono">index.html</code> 1ファイルだけで動作するように設計されています。
-        </p>
-        <ol class="list-decimal list-inside space-y-2 bg-slate-50 p-4 rounded-2xl border border-slate-200 font-medium">
-          <li>GitHubで新しいリポジトリ（例：<code class="text-xs bg-white px-1.5 py-0.5 rounded border">arunashi-quiz</code>）を作成します。</li>
-          <li>このコードを <code class="text-xs bg-white px-1.5 py-0.5 rounded border">index.html</code> という名前でリポジトリにアップロード（Push）します。</li>
-          <li>リポジトリの <strong>Settings &gt; Pages</strong> を開きます。</li>
-          <li><strong>Branch</strong> で <code class="text-xs bg-white px-1.5 py-0.5 rounded border">main</code> を選択して <strong>Save</strong> を押すと、数分でWebサイトとして公開されます！</li>
-        </ol>
-        <div class="pt-2 flex flex-wrap gap-2">
-          <button onclick="downloadJsonData()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition">
-            📥 クイズデータ(JSON)をダウンロード
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- モーダル3: 記録リセット確認 -->
   <div id="resetModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 text-center animate-pop-in">
       <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 mx-auto flex items-center justify-center text-2xl font-black">
@@ -451,6 +430,7 @@
         answer: "ぶた",
         distractors: ["いぬ", "ねこ", "さる"],
         hint: "言葉の「前」に、ある1文字をつけてみましょう。",
+        clue: "言葉の前に「こ」をつけてみよう！",
         explanation: "前に「こ（小・子）」をつけると別の言葉になります（ことり・こむぎ・こうし・こやま・こぶた）。"
       },
       {
@@ -461,6 +441,7 @@
         answer: "ひと",
         distractors: ["いえ", "はる", "よむ"],
         hint: "言葉の「後ろ」に、ある2文字をつけてみましょう。",
+        clue: "言葉の後ろに「がら」をつけてみよう！",
         explanation: "後ろに「がら（柄）」をつけると意味の通じる言葉になります（まちがら・なつがら・きくがら・ひとがら）。"
       },
       {
@@ -471,6 +452,7 @@
         answer: "くすり",
         distractors: ["めだか", "とまと", "りんご"],
         hint: "文字を「逆さ」から読んでみると…？",
+        clue: "文字を「逆さ（後ろから）」読んで別の言葉になるものを選ぼう！",
         explanation: "逆から読むと別の言葉になります（まくら・かるい・ねつき・きみつ・りすく）。"
       },
       {
@@ -481,6 +463,7 @@
         answer: "うめ",
         distractors: ["ばら", "ゆり", "むぎ"],
         hint: "植物の「種類」に注目してみましょう。",
+        clue: "「木（樹木）」の名前になるものを選ぼう！",
         explanation: "「ある」はすべて「木（樹木）」の名前です（松・杉・桜・楓・梅）。"
       },
       {
@@ -491,6 +474,7 @@
         answer: "つるはし",
         distractors: ["くわがた", "かまきり", "こがねむし"],
         hint: "言葉の「最初の2文字」に注目！",
+        clue: "最初の2文字が「鳥」の名前になっているものを選ぼう！",
         explanation: "最初の2文字が「鳥」の名前になっています（たか・はと・わし・かも・つる）。"
       },
       {
@@ -501,6 +485,7 @@
         answer: "あじ",
         distractors: ["さば", "たい", "ふぐ"],
         hint: "言葉についている「濁点（゛）」を消してみましょう。",
+        clue: "言葉についている「濁点（゛）」をとって別の言葉になるものを選ぼう！",
         explanation: "濁点（゛）をとると別の言葉になります（かき・さる・ふた・つき・あし）。"
       },
       {
@@ -511,6 +496,7 @@
         answer: "たもと",
         distractors: ["たなばた", "たいよう", "たぬきじる"],
         hint: "まさに「たぬき（た抜き）」してみましょう！",
+        clue: "最初の「た」の1文字をとって別の言葉になるものを選ぼう！",
         explanation: "最初の「た」をとると別の言葉になります（ぬき・から・ばこ・まご・もと）。"
       },
       {
@@ -521,6 +507,7 @@
         answer: "そらまめ",
         distractors: ["えだまめ", "くりきんとん", "ばなな"],
         hint: "最初の音（ド・レ・ミ・ファ…）に注目！",
+        clue: "最初の音が「ド・レ・ミ・ファ…」の順！次は「ソ」で始まる言葉だよ！",
         explanation: "最初の音が音階（ド・レ・ミ・ファ・ソ）の順になっています。次は「ソ」で始まる「そらまめ」です。"
       },
       {
@@ -531,6 +518,7 @@
         answer: "当日",
         distractors: ["昨日", "今日", "明日"],
         hint: "2文字の漢字を「前後ひっくり返して」みましょう。",
+        clue: "2つの漢字を「前後ひっくり返して」別の熟語になるものを選ぼう！",
         explanation: "漢字の前後を逆にしても別の熟語になります（火花・社会・和平・王国・日当）。"
       },
       {
@@ -541,6 +529,7 @@
         answer: "ももたろう",
         distractors: ["きんたろう", "うらしまたろう", "いっすんぼうし"],
         hint: "言葉の中に「カラフルなもの」が隠れています。",
+        clue: "言葉の中に「色（みどり・しろ・あか・あお…）」が隠れているものを選ぼう！",
         explanation: "言葉の中に「色」の名前が隠れています（みどり・しろ・あか・あお・もも）。"
       },
       {
@@ -551,6 +540,7 @@
         answer: "名",
         distractors: ["字", "文", "本"],
         hint: "漢字の「パーツ（部品）」に注目！",
+        clue: "漢字の中に「口（くち）」のパーツが含まれているものを選ぼう！",
         explanation: "「ある」の漢字にはすべて「口（くち）」というパーツが含まれています。"
       },
       {
@@ -561,6 +551,7 @@
         answer: "正",
         distractors: ["誤", "真", "偽"],
         hint: "漢字を書くときの「画数」を数えてみましょう。",
+        clue: "画数が「5画」の漢字を選ぼう！",
         explanation: "「ある」はすべて「5画」の漢字です（白・目・石・田・正＝すべて5画）。"
       },
       {
@@ -571,6 +562,7 @@
         answer: "ふで",
         distractors: ["ぺん", "かみ", "すみ"],
         hint: "言葉の「前」に、ある1文字をつけてみましょう。",
+        clue: "言葉の前に「え」をつけてみよう！",
         explanation: "前に「え（絵）」をつけると別の言葉になります（えほん・えかき・えまき・えもじ・えふで）。"
       },
       {
@@ -581,6 +573,7 @@
         answer: "うし",
         distractors: ["ぞう", "さる", "しか"],
         hint: "動物たちを「英語」に直して綴り（文字数）を見てみましょう。",
+        clue: "英語にしたとき「3文字（dog, cat…）」になる動物を選ぼう！",
         explanation: "英語にしたとき「3文字」になる動物です（dog, cat, pig, fox, cow）。"
       },
       {
@@ -591,6 +584,7 @@
         answer: "ここあ",
         distractors: ["こーひー", "みるく", "おちゃ"],
         hint: "上から読んでも、下から読んでも…？",
+        clue: "逆から読んでも同じになる「回文」を選ぼう！",
         explanation: "逆から読んでも同じ言葉になる「回文」です（とまと・こねこ・すいす・かいか・ここあ）。"
       },
       {
@@ -601,6 +595,7 @@
         answer: "はみがき",
         distractors: ["うがい", "せんがん", "てあらい"],
         hint: "言葉の「最初」に、顔にあるパーツが隠れています。",
+        clue: "最初の文字が「顔のパーツ（目・鼻・口・耳…）」になっているものを選ぼう！",
         explanation: "言葉の最初が「顔のパーツ（目・鼻・口・耳・歯）」になっています。"
       },
       {
@@ -611,6 +606,7 @@
         answer: "すいはん",
         distractors: ["しょくじ", "すいみん", "さんぽ"],
         hint: "後ろに「き（機・器）」をつけてみましょう。",
+        clue: "言葉の後ろに「き（機・器）」をつけて家電・機械の名前になるものを選ぼう！",
         explanation: "後ろに「き」をつけると家電・機械の名前になります（掃除機・洗濯機・計算機・発電機・炊飯器）。"
       },
       {
@@ -621,6 +617,7 @@
         answer: "港",
         distractors: ["岬", "丘", "谷"],
         hint: "漢字の「部首（へん）」に注目！",
+        clue: "部首が「さんずい（氵）」の漢字を選ぼう！",
         explanation: "「ある」はすべて部首が「さんずい（氵）」の漢字です。"
       },
       {
@@ -631,6 +628,7 @@
         answer: "でん",
         distractors: ["ばす", "くるま", "ふね"],
         hint: "言葉の「前」に「お」をつけてみましょう。",
+        clue: "言葉の前に「お」をつけてみよう！",
         explanation: "前に「お」をつけると別の言葉になります（おかき・おたま・おなら・おもちゃ・おでん）。"
       },
       {
@@ -641,6 +639,7 @@
         answer: "たまご",
         distractors: ["さかな", "くるま", "はな"],
         hint: "英語にしたときの「頭文字（アルファベット）」を並べてみましょう。",
+        clue: "英語の頭文字が「A, B, C, D…」の順！次は「E」で始まるものを選ぼう！",
         explanation: "英語の頭文字が A, B, C, D, E の順になっています（Apple, Book, Cat, Dog, Egg＝たまご）。"
       },
       {
@@ -651,6 +650,7 @@
         answer: "びわこ",
         distractors: ["ふじさん", "とねがわ", "いずも"],
         hint: "「最後の1文字」を消すと、あるジャンルの名前が出てきます。",
+        clue: "最後の1文字をとると「楽器」の名前になるものを選ぼう！",
         explanation: "最後の1文字をとると「楽器」の名前になります（たいこ・ふえ・すず・こと・びわ）。"
       },
       {
@@ -661,6 +661,7 @@
         answer: "びよう",
         distractors: ["けんこう", "うんどう", "がくしゅう"],
         hint: "後ろに「し（士・師）」をつけてみましょう。",
+        clue: "言葉の後ろに「し（士・師）」をつけて職業の名前になるものを選ぼう！",
         explanation: "後ろに「し」をつけると職業の名前になります（運転士・弁護士・料理師・建築士・美容師）。"
       },
       {
@@ -671,6 +672,7 @@
         answer: "わか",
         distractors: ["はいく", "たんか", "せんりゅう"],
         hint: "後ろに「め」をつけてみましょう。",
+        clue: "言葉の後ろに「め」をつけてみよう！",
         explanation: "後ろに「め」をつけると生き物や海藻などの名前になります（すずめ・つばめ・かもめ・ひらめ・わかめ）。"
       },
       {
@@ -681,6 +683,7 @@
         answer: "大",
         distractors: ["中", "小", "太"],
         hint: "漢字の「画数」を数えてみましょう。",
+        clue: "画数が「3画」の漢字を選ぼう！",
         explanation: "「ある」はすべて「3画」の漢字です（山・川・土・口・大＝すべて3画）。"
       },
       {
@@ -691,6 +694,7 @@
         answer: "ねぎらい",
         distractors: ["かんしゃ", "おれい", "あいさつ"],
         hint: "言葉の「最初の2文字」に注目！",
+        clue: "最初の2文字が「野菜」の名前になっているものを選ぼう！",
         explanation: "最初の2文字が「野菜」の名前になっています（なす・うり・まめ・かぶ・ねぎ）。"
       },
       {
@@ -701,6 +705,7 @@
         answer: "いらくさ",
         distractors: ["たんぽぽ", "あさがお", "ひまわり"],
         hint: "言葉の「最初」に世界地図で見つかるものが隠れています。",
+        clue: "言葉の最初が「国の名前（インド・タイ・チリ・日本…）」になっているものを選ぼう！",
         explanation: "言葉の最初が「国の名前」になっています（インド・タイ・チリ・日本・イラク）。"
       },
       {
@@ -711,6 +716,7 @@
         answer: "きん",
         distractors: ["てつ", "どう", "すず"],
         hint: "後ろに「いろ（色）」をつけてみましょう。",
+        clue: "言葉の後ろに「いろ」をつけてみよう！",
         explanation: "後ろに「いろ」をつけると色の名前になります（水色・空色・桃色・肌色・金色）。"
       },
       {
@@ -721,6 +727,7 @@
         answer: "売買",
         distractors: ["読書", "散歩", "旅行"],
         hint: "二字熟語の2つの漢字の「意味の関係」に注目！",
+        clue: "「反対の意味の漢字」が組み合わさった熟語を選ぼう！",
         explanation: "「ある」は反対の意味の漢字が組み合わさった熟語（対義語熟語）です。"
       },
       {
@@ -731,6 +738,7 @@
         answer: "温暖",
         distractors: ["寒暖", "高低", "長短"],
         hint: "さっきとは逆！2つの漢字の意味が…？",
+        clue: "「同じような意味の漢字」が組み合わさった熟語を選ぼう！",
         explanation: "「ある」は同じような意味の漢字が組み合わさった熟語（類義語熟語）です。"
       },
       {
@@ -741,6 +749,7 @@
         answer: "うさぎ",
         distractors: ["ぱんだ", "こあら", "ぺんぎん"],
         hint: "お正月に登場する12種類の動物といえば？",
+        clue: "「十二支（干支）」にいる動物を選ぼう！",
         explanation: "「ある」はすべて「十二支（干支）」に含まれる動物です（寅・午・巳・申・卯）。"
       },
       {
@@ -751,6 +760,7 @@
         answer: "とんぼ",
         distractors: ["かえる", "へび", "かめ"],
         hint: "生き物の分類（足が6本！）に注目！",
+        clue: "「昆虫（虫）」の名前を選ぼう！",
         explanation: "「ある」はすべて「昆虫（虫）」の名前です。"
       },
       {
@@ -761,6 +771,7 @@
         answer: "しがらみ",
         distractors: ["やくそく", "きまり", "るーる"],
         hint: "言葉の「最初の2文字」に日本地図の要素が隠れています。",
+        clue: "最初の2文字が「都道府県名（千葉・三重・佐賀・奈良…）」になっているものを選ぼう！",
         explanation: "最初の2文字が「都道府県名」になっています（千葉・三重・佐賀・奈良・滋賀）。"
       },
       {
@@ -771,6 +782,7 @@
         answer: "しゅうにん",
         distractors: ["きゅうけい", "どくしょ", "かいもの"],
         hint: "後ろに「しき（式）」をつけてみましょう。",
+        clue: "言葉の後ろに「しき（式）」をつけてみよう！",
         explanation: "後ろに「しき」をつけるとセレモニーの名前になります（入学式・卒業式・結婚式・成人式・就任式）。"
       },
       {
@@ -781,6 +793,7 @@
         answer: "ねこぜ",
         distractors: ["まじめ", "げんき", "ゆうき"],
         hint: "言葉の「最初の2文字」に生き物が隠れています。",
+        clue: "最初の2文字が「生き物（カメ・タイ・サイ・トリ…）」の名前になっているものを選ぼう！",
         explanation: "最初の2文字が「生き物」の名前になっています（カメ・タイ・サイ・トリ・ネコ）。"
       },
       {
@@ -791,6 +804,7 @@
         answer: "音",
         distractors: ["声", "歌", "曲"],
         hint: "漢字の左側に「日（にちへん）」をつけてみましょう。",
+        clue: "漢字の左側に「日（にちへん）」をつけて別の漢字になるものを選ぼう！",
         explanation: "左に「日」をつけると別の漢字になります（時・晴・星・暑・暗）。"
       },
       {
@@ -801,6 +815,7 @@
         answer: "しお",
         distractors: ["さとう", "す", "みそ"],
         hint: "言葉の「前」に「おお（大）」をつけてみましょう。",
+        clue: "言葉の前に「おお（大）」をつけてみよう！",
         explanation: "前に「おお（大）」をつけると自然現象を表す言葉になります（大雨・大風・大雪・大水・大潮）。"
       },
       {
@@ -811,6 +826,7 @@
         answer: "ぎょうざ",
         distractors: ["らーめん", "ちゃーはん", "しゅうまい"],
         hint: "言葉の「前」に「みず（水）」をつけてみましょう。",
+        clue: "言葉の前に「みず（水）」をつけてみよう！",
         explanation: "前に「みず」をつけると別の言葉になります（水飴・湖・水鳥・水風船・水餃子）。"
       },
       {
@@ -821,6 +837,7 @@
         answer: "そうだん",
         distractors: ["かいぎ", "はなしあい", "れんらく"],
         hint: "言葉の「最初」に喉を潤すものが隠れています。",
+        clue: "言葉の最初が「飲み物（お茶・水・ミルク・コーラ…）」になっているものを選ぼう！",
         explanation: "言葉の最初が「飲み物」の名前になっています（お茶・水・ミルク・コーラ・ソーダ）。"
       },
       {
@@ -831,6 +848,7 @@
         answer: "めいあん",
         distractors: ["くふう", "ちえ", "ひらめき"],
         hint: "言葉の「最初の2文字」に親戚・家族が隠れています。",
+        clue: "最初の2文字が「親族（兄・姉・孫・甥…）」を表しているものを選ぼう！",
         explanation: "最初の2文字が「親族（家族・親戚）」を表す言葉になっています（兄・姉・孫・甥・姪）。"
       },
       {
@@ -841,6 +859,7 @@
         answer: "器",
         distractors: ["皿", "鉢", "鍋"],
         hint: "漢字の中にある四角いパーツ「口」の数を数えてみましょう。",
+        clue: "漢字の中に四角い「口」が2つ以上入っているものを選ぼう！",
         explanation: "「ある」は漢字の中に「口」が2つ以上含まれています（品＝3つ、回・呂・串＝2つ、器＝4つ）。"
       },
       {
@@ -851,6 +870,7 @@
         answer: "ごぼう",
         distractors: ["れんこん", "きゃべつ", "たまねぎ"],
         hint: "言葉の最初に「1、2、3、4…」が隠れています！",
+        clue: "最初に「いち・に・さん・し…」と数字が隠れている！次は「ご（5）」で始まる言葉！",
         explanation: "言葉の中に数字が順番に隠れています（いち・に・さん・し・ご＝ごぼう）。"
       },
       {
@@ -861,6 +881,7 @@
         answer: "おうせつ",
         distractors: ["しょくどう", "きょうしつ", "としょかん"],
         hint: "後ろに「しつ（室）」をつけてみましょう。",
+        clue: "言葉の後ろに「しつ（室）」をつけてみよう！",
         explanation: "後ろに「しつ」をつけると部屋の名前になります（医室・寝室・会議室・浴室・応接室）。"
       },
       {
@@ -871,6 +892,7 @@
         answer: "はて",
         distractors: ["はじ", "すみ", "おく"],
         hint: "後ろに「な」を1文字つけてみましょう。",
+        clue: "言葉の後ろに「な」を1文字つけてみよう！",
         explanation: "後ろに「な」をつけると別の言葉になります（かたな・おとな・さかな・きずな・はてな）。"
       },
       {
@@ -881,6 +903,7 @@
         answer: "かるた",
         distractors: ["とらんぷ", "しょうぎ", "いご"],
         hint: "真ん中の文字を抜いて、1文字目と3文字目をつなげてみましょう。",
+        clue: "真ん中の文字を抜いて「1文字目と3文字目」をつなげて別の言葉になるものを選ぼう！",
         explanation: "1文字目と3文字目をつなぐと別の言葉になります（くま・たき・さら・つえ・かた）。"
       },
       {
@@ -891,6 +914,7 @@
         answer: "おい",
         distractors: ["そら", "くも", "ほし"],
         hint: "五十音表の「一番上の段（あ行）」だけでできています！",
+        clue: "「あ・い・う・え・お」の文字だけでできている言葉を選ぼう！",
         explanation: "すべて母音（あ・い・う・え・お）の文字だけでできている言葉です。"
       },
       {
@@ -901,6 +925,7 @@
         answer: "はるまき",
         distractors: ["ぎょうざ", "しゅうまい", "にくまん"],
         hint: "言葉の「最初の2文字」に日本の四季が隠れています。",
+        clue: "最初の2文字が「季節（春・夏・秋・冬）」になっているものを選ぼう！",
         explanation: "最初の2文字が「季節（春・夏・秋・冬）」の名前になっています。"
       },
       {
@@ -911,6 +936,7 @@
         answer: "けん",
         distractors: ["かたな", "やり", "ゆみ"],
         hint: "後ろに「だま（玉）」をつけてみましょう。",
+        clue: "言葉の後ろに「だま（玉）」をつけてみよう！",
         explanation: "後ろに「だま」をつけると丸いものや遊びの名前になります（目玉・シャボン玉・ビー玉・親玉・けん玉）。"
       },
       {
@@ -921,6 +947,7 @@
         answer: "葉",
         distractors: ["枝", "幹", "根"],
         hint: "漢字の一番上にある「部首」に注目！",
+        clue: "部首が「くさかんむり（艹）」の漢字を選ぼう！",
         explanation: "「ある」はすべて部首が「くさかんむり（艹）」の漢字です。"
       },
       {
@@ -931,6 +958,7 @@
         answer: "すな",
         distractors: ["どろ", "いし", "つち"],
         hint: "文字を「逆さ」から読んでみましょう。",
+        clue: "文字を「逆さ（後ろから）」読んで別の言葉になるものを選ぼう！",
         explanation: "逆から読むと別の言葉になります（かい・かさ・わか・つな・なす）。"
       },
       {
@@ -941,6 +969,7 @@
         answer: "ワイン",
         distractors: ["じゅーす", "びーる", "こーひー"],
         hint: "言葉の「前」に「あか（赤）」をつけてみましょう。",
+        clue: "言葉の前に「あか（赤）」をつけてみよう！",
         explanation: "前に「あか」をつけると別の言葉になります（赤ちゃん・赤信号・赤トンボ・赤鉛筆・赤ワイン）。"
       }
     ];
@@ -958,7 +987,8 @@
       currentIndex: 0,
       score: 0,
       results: [], // { id, isCorrect, userChoice }
-      answered: false
+      answered: false,
+      wrongAttempts: 0
     };
 
     let soundEnabled = true;
@@ -1124,7 +1154,8 @@
         currentIndex: 0,
         score: 0,
         results: [],
-        answered: false
+        answered: false,
+        wrongAttempts: 0
       };
 
       document.getElementById('homeScreen').classList.add('hidden');
@@ -1141,6 +1172,7 @@
       const total = currentSession.questions.length;
       const step = currentSession.currentIndex + 1;
       currentSession.answered = false;
+      currentSession.wrongAttempts = 0;
 
       // ヘッダー情報更新
       document.getElementById('modeBadge').textContent = currentSession.modeName;
@@ -1160,9 +1192,11 @@
       // ヒントリセット
       const hintBox = document.getElementById('hintBox');
       const hintBtn = document.getElementById('hintBtn');
+      const firstWrongHintBox = document.getElementById('firstWrongHintBox');
       hintBox.classList.add('hidden');
       hintBox.textContent = `💡 ヒント：${q.hint}`;
       hintBtn.classList.remove('hidden');
+      firstWrongHintBox.classList.add('hidden');
 
       // フィードバック非表示
       document.getElementById('feedbackArea').classList.add('hidden');
@@ -1175,10 +1209,10 @@
       choicesGrid.innerHTML = choices.map((choice, idx) => `
         <button onclick="submitAnswer('${escapeJsString(choice)}', this)"
           class="btn-push choice-btn w-full text-left bg-white hover:bg-amber-50 border-2 border-slate-200 hover:border-amber-400 rounded-2xl p-4 shadow-xs flex items-center gap-3.5 transition group">
-          <span class="w-8 h-8 rounded-xl bg-slate-100 group-hover:bg-amber-200 text-slate-700 font-black text-sm flex items-center justify-center shrink-0 transition">
+          <span class="choice-badge w-8 h-8 rounded-xl bg-slate-100 group-hover:bg-amber-200 text-slate-700 font-black text-sm flex items-center justify-center shrink-0 transition">
             ${labels[idx]}
           </span>
-          <span class="text-lg sm:text-xl font-black text-slate-800">${escapeHtml(choice)}</span>
+          <span class="choice-text text-lg sm:text-xl font-black text-slate-800">${escapeHtml(choice)}</span>
         </button>
       `).join('');
     }
@@ -1190,74 +1224,138 @@
       document.getElementById('hintBox').classList.remove('hidden');
     }
 
-    // 回答判定
+    // 回答判定（1回目不正解で文字ヒント表示、2回目不正解で答えと解説表示）
     function submitAnswer(selectedChoice, btnEl) {
       if (currentSession.answered) return;
-      currentSession.answered = true;
 
       const q = currentSession.questions[currentSession.currentIndex];
       const isCorrect = selectedChoice === q.answer;
+      const firstWrongHintBox = document.getElementById('firstWrongHintBox');
 
-      // スコア・進捗更新
+      // 1. 正解した場合（1回目または2回目）
       if (isCorrect) {
+        currentSession.answered = true;
         currentSession.score++;
         playTone('correct');
+
         if (!progress.solvedIds.includes(q.id)) {
           progress.solvedIds.push(q.id);
         }
         progress.wrongIds = progress.wrongIds.filter(id => id !== q.id);
-      } else {
-        playTone('wrong');
-        if (!progress.wrongIds.includes(q.id)) {
-          progress.wrongIds.push(q.id);
-        }
+        saveProgress();
+
+        currentSession.results.push({
+          question: q,
+          isCorrect: true,
+          userChoice: selectedChoice
+        });
+
+        document.getElementById('sessionScore').textContent = currentSession.score;
+        firstWrongHintBox.classList.add('hidden');
+
+        // 全ボタンを無効化し正解を強調
+        const allBtns = document.querySelectorAll('.choice-btn');
+        allBtns.forEach(btn => {
+          btn.disabled = true;
+          const text = btn.querySelector('.choice-text').textContent;
+          if (text === q.answer) {
+            btn.classList.remove('bg-white', 'border-slate-200', 'hover:bg-amber-50');
+            btn.classList.add('bg-emerald-50', 'border-emerald-500', 'ring-2', 'ring-emerald-200');
+            btn.querySelector('.choice-badge').classList.add('bg-emerald-500', 'text-white');
+          } else {
+            btn.classList.add('opacity-55');
+          }
+        });
+
+        // フィードバック表示
+        const feedbackArea = document.getElementById('feedbackArea');
+        const feedbackBadge = document.getElementById('feedbackBadge');
+        const feedbackTitle = document.getElementById('feedbackTitle');
+
+        feedbackArea.className = 'bg-white rounded-3xl p-5 sm:p-6 border-2 border-emerald-400 shadow-lg space-y-4 animate-pop-in';
+        feedbackBadge.className = 'w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center text-2xl font-black text-white shrink-0';
+        feedbackBadge.textContent = '〇';
+        feedbackTitle.className = 'text-xl sm:text-2xl font-black text-emerald-700';
+        feedbackTitle.textContent = currentSession.wrongAttempts === 1 ? '大正解！ヒントで見事リベンジ！' : '大正解！すばらしい！';
+
+        document.getElementById('feedbackAnswer').textContent = q.answer;
+        document.getElementById('feedbackExplanation').textContent = q.explanation;
+
+        const isLast = currentSession.currentIndex >= currentSession.questions.length - 1;
+        document.getElementById('nextBtnText').textContent = isLast ? '結果発表を見る' : '次の問題へ';
+
+        feedbackArea.classList.remove('hidden');
+        setTimeout(() => {
+          feedbackArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 60);
+        return;
+      }
+
+      // 2. 不正解だった場合
+      currentSession.wrongAttempts++;
+      playTone('wrong');
+
+      // 【1回目の不正解】選んだボタンを無効化し、文字・核心ヒントを表示して再挑戦させる
+      if (currentSession.wrongAttempts === 1) {
+        btnEl.disabled = true;
+        btnEl.classList.remove('bg-white', 'border-slate-200', 'hover:bg-amber-50', 'hover:border-amber-400');
+        btnEl.classList.add('bg-rose-50', 'border-rose-400', 'opacity-65', 'cursor-not-allowed');
+        btnEl.querySelector('.choice-badge').classList.add('bg-rose-500', 'text-white');
+
+        const wrongTag = document.createElement('span');
+        wrongTag.className = 'ml-auto text-xs font-black text-rose-600 bg-rose-100 px-2.5 py-1 rounded-lg shrink-0';
+        wrongTag.textContent = '× 不正解';
+        btnEl.appendChild(wrongTag);
+
+        document.getElementById('firstWrongHintText').textContent = `💡 大ヒント：${q.clue}`;
+        firstWrongHintBox.classList.remove('hidden');
+        setTimeout(() => {
+          firstWrongHintBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 60);
+        return;
+      }
+
+      // 【2回目の不正解】答えと解説を表示して次へ進めるようにする
+      currentSession.answered = true;
+      firstWrongHintBox.classList.add('hidden');
+
+      if (!progress.wrongIds.includes(q.id)) {
+        progress.wrongIds.push(q.id);
       }
       saveProgress();
 
       currentSession.results.push({
         question: q,
-        isCorrect: isCorrect,
+        isCorrect: false,
         userChoice: selectedChoice
       });
 
-      document.getElementById('sessionScore').textContent = currentSession.score;
-
-      // ボタンのスタイル変更
       const allBtns = document.querySelectorAll('.choice-btn');
       allBtns.forEach(btn => {
         btn.disabled = true;
-        const text = btn.querySelector('span:last-child').textContent;
+        const text = btn.querySelector('.choice-text').textContent;
         if (text === q.answer) {
           btn.classList.remove('bg-white', 'border-slate-200', 'hover:bg-amber-50');
           btn.classList.add('bg-emerald-50', 'border-emerald-500', 'ring-2', 'ring-emerald-200');
-          btn.querySelector('span:first-child').classList.add('bg-emerald-500', 'text-white');
-        } else if (btn === btnEl && !isCorrect) {
+          btn.querySelector('.choice-badge').classList.add('bg-emerald-500', 'text-white');
+        } else if (btn === btnEl) {
           btn.classList.remove('bg-white', 'border-slate-200', 'hover:bg-amber-50');
           btn.classList.add('bg-rose-50', 'border-rose-500');
-          btn.querySelector('span:first-child').classList.add('bg-rose-500', 'text-white');
+          btn.querySelector('.choice-badge').classList.add('bg-rose-500', 'text-white');
         } else {
           btn.classList.add('opacity-55');
         }
       });
 
-      // フィードバック表示
       const feedbackArea = document.getElementById('feedbackArea');
       const feedbackBadge = document.getElementById('feedbackBadge');
       const feedbackTitle = document.getElementById('feedbackTitle');
 
-      if (isCorrect) {
-        feedbackArea.className = 'bg-white rounded-3xl p-5 sm:p-6 border-2 border-emerald-400 shadow-lg space-y-4 animate-pop-in';
-        feedbackBadge.className = 'w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center text-2xl font-black text-white shrink-0';
-        feedbackBadge.textContent = '〇';
-        feedbackTitle.className = 'text-xl sm:text-2xl font-black text-emerald-700';
-        feedbackTitle.textContent = '大正解！すばらしい！';
-      } else {
-        feedbackArea.className = 'bg-white rounded-3xl p-5 sm:p-6 border-2 border-rose-400 shadow-lg space-y-4 animate-pop-in';
-        feedbackBadge.className = 'w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center text-2xl font-black text-white shrink-0';
-        feedbackBadge.textContent = '×';
-        feedbackTitle.className = 'text-xl sm:text-2xl font-black text-rose-700';
-        feedbackTitle.textContent = 'おしい！不正解…';
-      }
+      feedbackArea.className = 'bg-white rounded-3xl p-5 sm:p-6 border-2 border-rose-400 shadow-lg space-y-4 animate-pop-in';
+      feedbackBadge.className = 'w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center text-2xl font-black text-white shrink-0';
+      feedbackBadge.textContent = '×';
+      feedbackTitle.className = 'text-xl sm:text-2xl font-black text-rose-700';
+      feedbackTitle.textContent = 'おしい！2回目も不正解…';
 
       document.getElementById('feedbackAnswer').textContent = q.answer;
       document.getElementById('feedbackExplanation').textContent = q.explanation;
